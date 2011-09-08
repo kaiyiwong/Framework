@@ -4,13 +4,30 @@ package com.kai.framework.components.ui
 	
 	import flash.events.MouseEvent;
 	
+	import org.osflash.signals.Signal;
+	
 	public class BaseButton extends BaseComponent
 	{
+		private var _id:String;
+		public var clicked:Signal;
+		
 		protected var _enabled:Boolean;
 		
 		public function BaseButton()
 		{
 			super();
+			
+			clicked = new Signal(BaseButton);
+		}
+		
+		public function get id():String
+		{
+			return _id;
+		}
+		
+		public function set id(value:String):void
+		{
+			_id = value;
 		}
 		
 		override public function initialize():void {
@@ -47,7 +64,7 @@ package com.kai.framework.components.ui
 		}
 		
 		protected function onClick(event:MouseEvent):void {
-			
+			clicked.dispatch(this);
 		}
 		
 		protected function addMouseListeners():void

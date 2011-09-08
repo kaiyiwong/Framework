@@ -2,6 +2,7 @@ package com.kai.framework.controller.commands
 {
 	import com.greensock.events.LoaderEvent;
 	import com.kai.framework.model.data.AssetData;
+	import com.kai.framework.model.data.MediaTypes;
 	import com.kai.framework.rpc.IReceiver;
 	import com.kai.framework.rpc.IResponder;
 	import com.kai.framework.services.loader.LoaderService;
@@ -25,7 +26,14 @@ package com.kai.framework.controller.commands
 				assetLoaded();
 			}
 			else {
-				loader.load(queue, asset.path, asset.type, {name:asset.path, smoothing:true, repeat:-1, onComplete:assetLoaded});
+				if (asset.type == MediaTypes.VIDEO_TYPE)
+				{
+					loader.load(queue, asset.path, asset.type, {name:asset.path, smoothing:true, bufferMode:true, onComplete:assetLoaded});
+				}
+				else
+				{
+					loader.load(queue, asset.path, asset.type, {name:asset.path, smoothing:true, onComplete:assetLoaded});
+				}
 				loader.start(queue, this);
 			}
 		}
